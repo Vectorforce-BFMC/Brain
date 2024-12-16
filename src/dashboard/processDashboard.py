@@ -106,17 +106,17 @@ class processDashboard(WorkerProcess):
         self.socketio.run(self.app, host='0.0.0.0', port=5005)
 
     def subscribe(self):
-      """Subscribe function. In this function we make all the required subscribe to process gateway"""
-      for name, enum in self.messagesAndVals.items():
+        """Subscribe function. In this function we make all the required subscribe to process gateway"""
+        for name, enum in self.messagesAndVals.items():
             if enum["owner"] != "Dashboard":
                 subscriber = messageHandlerSubscriber(self.queueList, enum["enum"], "lastOnly", True)
                 self.messages[name] = {"obj": subscriber}
             else:
                 sender = messageHandlerSender(self.queueList, enum["enum"])
                 self.sendMessages[str(name)] = {"obj": sender}
-            """"""""""
-            subscriber = messageHandlerSubscriber(self.queueList, Semaphores, "fifo", True)
-            self.messages["Semaphores"] = {"obj": subscriber}
+
+        subscriber = messageHandlerSubscriber(self.queueList, Semaphores, "fifo", True)
+        self.messages["Semaphores"] = {"obj": subscriber}
 
     def getNamesAndVals(self):
         """Extract all message names and values for processing."""
