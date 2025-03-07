@@ -30,6 +30,7 @@ import json
 import time
 import threading
 
+from src.utils import table_state
 from src.hardware.serialhandler.threads.messageconverter import MessageConverter
 from src.templates.threadwithstop import ThreadWithStop
 from src.utils.messages.allMessages import (
