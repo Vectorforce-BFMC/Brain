@@ -26,6 +26,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 
+import sys
+import os
+
+# Add the src directory to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
+
 import json
 import time
 import threading
@@ -72,7 +78,7 @@ class threadWrite(ThreadWithStop):
         self.messageConverter = MessageConverter()
         self.steerMotorSender = messageHandlerSender(self.queuesList, SteerMotor)
         self.speedMotorSender = messageHandlerSender(self.queuesList, SpeedMotor)
-        self.configPath = "absolute/path/to/src/utils/table_state.json"
+        self.configPath = "src/utils/table_state.json"
 
         self.loadConfig("init")
         self.subscribe()
@@ -105,8 +111,20 @@ class threadWrite(ThreadWithStop):
             self.logFile.write(command_msg)
 
     def loadConfig(self, configType):
-        with open(self.configPath, "r") as file:
-            data = json.load(file)
+        resolved_path = os.path.abspath(self.configPath)
+        self.logger.info(f"Resolved config path: {resolved_path}")
+        self.logger.info(f"Current working directory: {os.getcwd()}")
+
+        if not os.path.exists(resolved_path):
+            self.logger.error(f"Configuration file not found: {resolved_path}")
+            return
+
+        try:
+            with open(resolved_path, "r") as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            self.logger.error(f"Configuration file not found: {resolved_path}")
+            return
 
         if configType == "init":
             data = data[len(data)-1]
