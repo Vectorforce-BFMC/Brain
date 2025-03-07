@@ -72,7 +72,7 @@ class threadWrite(ThreadWithStop):
         self.messageConverter = MessageConverter()
         self.steerMotorSender = messageHandlerSender(self.queuesList, SteerMotor)
         self.speedMotorSender = messageHandlerSender(self.queuesList, SpeedMotor)
-        self.configPath = "../src/utils/table_state.json"
+        self.configPath = "src/utils/table_state.json"
 
         self.loadConfig("init")
         self.subscribe()
