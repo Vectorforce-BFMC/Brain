@@ -260,7 +260,6 @@ class threadWrite(ThreadWithStop):
         """This function simulte the movement of the car."""
 
         if self.exampleFlag:
-            self.signalRunningSender.send({"Type": "Run", "value": True})
             self.speedMotorSender.send({"Type": "Speed", "value": self.s})
             self.steerMotorSender.send({"Type": "Steer", "value": self.i})
             self.i += self.j
