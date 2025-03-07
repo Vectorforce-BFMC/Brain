@@ -42,7 +42,6 @@
 # ===================================== GENERAL IMPORTS ==================================
 import sys
 import subprocess
-import hardware
 
 sys.path.append(".")
 from multiprocessing import Queue, Event
